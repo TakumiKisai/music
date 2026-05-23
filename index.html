@@ -1,1 +1,877 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OTF Signal Archive</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--bg:#000;
+--panel:rgba(255,255,255,.04);
+--line:rgba(255,255,255,.08);
+--text:#fff;
+--muted:rgba(255,255,255,.55);
+}
+
+html,body{
+background:#000;
+font-family:'Inter',sans-serif;
+color:#fff;
+overflow-x:hidden;
+min-height:100vh;
+}
+
+/* =========================
+BACKGROUND
+========================= */
+
+body{
+position:relative;
+background:#000;
+}
+
+/* GLOW */
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+
+background:
+
+radial-gradient(
+circle at 15% 20%,
+rgba(255,255,255,.12) 0%,
+transparent 30%
+),
+
+radial-gradient(
+circle at 85% 80%,
+rgba(255,255,255,.08) 0%,
+transparent 35%
+),
+
+radial-gradient(
+circle at center,
+rgba(255,255,255,.03) 0%,
+transparent 60%
+),
+
+#000;
+
+animation:bgFloat 12s ease-in-out infinite;
+}
+
+/* GRID */
+
+body::after{
+content:'';
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
+
+background:
+
+repeating-linear-gradient(
+0deg,
+transparent 0px,
+transparent 64px,
+rgba(255,255,255,.015) 65px,
+transparent 66px
+),
+
+repeating-linear-gradient(
+90deg,
+transparent 0px,
+transparent 64px,
+rgba(255,255,255,.012) 65px,
+transparent 66px
+);
+
+opacity:.14;
+
+animation:gridMove 18s linear infinite;
+}
+
+@keyframes bgFloat{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-12px);
+}
+
+}
+
+@keyframes gridMove{
+
+0%{
+transform:translate(0px,0px);
+}
+
+100%{
+transform:translate(64px,64px);
+}
+
+}
+
+/* =========================
+WRAP
+========================= */
+
+.wrap{
+position:relative;
+z-index:2;
+max-width:860px;
+margin:auto;
+padding:34px 18px 70px;
+}
+
+/* =========================
+HEADER
+========================= */
+
+.hero{
+text-align:center;
+margin-bottom:30px;
+}
+
+.hero-title{
+font-size:42px;
+font-weight:800;
+letter-spacing:-2px;
+}
+
+.hero-sub{
+margin-top:10px;
+
+font-size:12px;
+letter-spacing:4px;
+
+text-transform:uppercase;
+
+color:rgba(255,255,255,.45);
+}
+
+/* =========================
+SEPARATOR
+========================= */
+
+.sep{
+display:flex;
+align-items:center;
+gap:14px;
+margin:28px 0;
+}
+
+.sep-line{
+flex:1;
+height:1px;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.25),
+transparent
+);
+
+position:relative;
+overflow:hidden;
+}
+
+.sep-line::after{
+content:'';
+position:absolute;
+top:0;
+left:-30%;
+width:30%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+#fff,
+transparent
+);
+
+opacity:.3;
+
+animation:lineSweep 4s linear infinite;
+}
+
+.sep-core{
+width:18px;
+height:18px;
+
+position:relative;
+flex-shrink:0;
+}
+
+.sep-core::before{
+content:'';
+position:absolute;
+inset:0;
+
+border:1px solid rgba(255,255,255,.2);
+border-radius:50%;
+
+animation:spin 10s linear infinite;
+}
+
+.sep-core::after{
+content:'';
+position:absolute;
+
+top:50%;
+left:50%;
+
+width:8px;
+height:8px;
+
+background:#fff;
+
+transform:translate(-50%,-50%) rotate(45deg);
+
+box-shadow:
+0 0 10px rgba(255,255,255,.3);
+}
+
+@keyframes lineSweep{
+100%{
+left:130%;
+}
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+/* =========================
+PLAYER
+========================= */
+
+.player{
+background:rgba(255,255,255,.025);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:22px;
+
+padding:26px;
+
+backdrop-filter:blur(12px);
+
+box-shadow:
+0 0 40px rgba(255,255,255,.04);
+
+position:relative;
+overflow:hidden;
+}
+
+.player::before{
+content:'';
+position:absolute;
+
+inset:-40%;
+
+background:
+radial-gradient(
+circle,
+rgba(255,255,255,.06),
+transparent 60%
+);
+
+animation:pulseGlow 8s linear infinite;
+
+pointer-events:none;
+}
+
+@keyframes pulseGlow{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.track-tag{
+font-size:10px;
+
+letter-spacing:3px;
+
+text-transform:uppercase;
+
+color:rgba(255,255,255,.4);
+}
+
+.track-title{
+margin-top:10px;
+
+font-size:34px;
+font-weight:800;
+
+line-height:1.05;
+}
+
+.track-sub{
+margin-top:8px;
+
+font-size:13px;
+
+color:rgba(255,255,255,.5);
+}
+
+/* =========================
+CONTROLS
+========================= */
+
+.controls{
+margin-top:28px;
+
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.play-btn{
+width:64px;
+height:64px;
+
+border:none;
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#fff,
+#bdbdbd
+);
+
+color:#000;
+
+font-size:22px;
+font-weight:800;
+
+cursor:pointer;
+
+flex-shrink:0;
+
+transition:.2s ease;
+
+box-shadow:
+0 0 20px rgba(255,255,255,.15);
+}
+
+.play-btn:hover{
+transform:scale(1.05);
+}
+
+.progress-wrap{
+flex:1;
+}
+
+.progress-bar{
+height:8px;
+
+background:rgba(255,255,255,.08);
+
+border-radius:999px;
+
+overflow:hidden;
+
+cursor:pointer;
+}
+
+.progress{
+height:100%;
+width:0%;
+
+background:
+linear-gradient(
+90deg,
+#fff,
+rgba(255,255,255,.4)
+);
+}
+
+.time{
+margin-top:8px;
+
+display:flex;
+justify-content:space-between;
+
+font-size:11px;
+
+color:rgba(255,255,255,.45);
+}
+
+/* =========================
+VOLUME
+========================= */
+
+.volume-wrap{
+margin-top:22px;
+}
+
+.volume-label{
+font-size:10px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+margin-bottom:10px;
+
+color:rgba(255,255,255,.45);
+}
+
+#volume{
+width:100%;
+accent-color:#fff;
+}
+
+/* =========================
+PLAYLIST
+========================= */
+
+.playlist{
+margin-top:34px;
+
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.song{
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:14px 16px;
+
+background:rgba(255,255,255,.025);
+
+border:1px solid rgba(255,255,255,.06);
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.2s ease;
+}
+
+.song:hover{
+transform:translateX(4px);
+
+border-color:rgba(255,255,255,.14);
+
+background:rgba(255,255,255,.04);
+}
+
+.song.active{
+border-color:rgba(255,255,255,.22);
+
+background:rgba(255,255,255,.06);
+
+box-shadow:
+0 0 20px rgba(255,255,255,.05);
+}
+
+.song-left{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.song-num{
+font-size:11px;
+
+color:rgba(255,255,255,.35);
+}
+
+.song-info h3{
+font-size:14px;
+font-weight:700;
+}
+
+.song-info p{
+margin-top:4px;
+
+font-size:11px;
+
+color:rgba(255,255,255,.45);
+}
+
+.song-status{
+font-size:10px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+color:rgba(255,255,255,.4);
+}
+
+/* =========================
+FOOTER
+========================= */
+
+.footer{
+margin-top:42px;
+text-align:center;
+}
+
+.footer-title{
+font-size:18px;
+font-weight:800;
+}
+
+.footer-sub{
+margin-top:8px;
+
+font-size:11px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+color:rgba(255,255,255,.35);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="hero">
+
+<div class="hero-title">
+OTF Signal Archive
+</div>
+
+<div class="hero-sub">
+Deltarune Piano Collection
+</div>
+
+</div>
+
+<div class="sep">
+<div class="sep-line"></div>
+<div class="sep-core"></div>
+<div class="sep-line"></div>
+</div>
+
+<div class="player">
+
+<div class="track-tag">
+Transmission Active
+</div>
+
+<div class="track-title" id="trackTitle">
+My Castle Town
+</div>
+
+<div class="track-sub">
+Piano Arrangement
+</div>
+
+<div class="controls">
+
+<button class="play-btn" id="playBtn">
+▶
+</button>
+
+<div class="progress-wrap">
+
+<div class="progress-bar" id="progressBar">
+<div class="progress" id="progress"></div>
+</div>
+
+<div class="time">
+<span id="currentTime">0:00</span>
+<span id="duration">0:00</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="volume-wrap">
+
+<div class="volume-label">
+Volume
+</div>
+
+<input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+
+</div>
+
+</div>
+
+<div class="sep">
+<div class="sep-line"></div>
+<div class="sep-core"></div>
+<div class="sep-line"></div>
+</div>
+
+<div class="playlist" id="playlist"></div>
+
+<div class="footer">
+
+<div class="footer-title">
+The OTF Champions of Chess
+</div>
+
+<div class="footer-sub">
+Signal Archive Terminal
+</div>
+
+</div>
+
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+
+const tracks=[
+
+{
+title:"My Castle Town",
+src:"https://takumikisai.github.io/music/mycastletown.mp3"
+},
+
+{
+title:"Don't Forget",
+src:"https://takumikisai.github.io/music/dontforget.mp3"
+},
+
+{
+title:"Lost Girl",
+src:"https://takumikisai.github.io/music/lostgirl.mp3"
+},
+
+{
+title:"A CYBER'S WORLD?",
+src:"https://takumikisai.github.io/music/cybersworld.mp3"
+}
+
+];
+
+const audio=document.getElementById('audio');
+
+const playBtn=document.getElementById('playBtn');
+
+const progress=document.getElementById('progress');
+
+const progressBar=document.getElementById('progressBar');
+
+const currentTime=document.getElementById('currentTime');
+
+const duration=document.getElementById('duration');
+
+const trackTitle=document.getElementById('trackTitle');
+
+const playlist=document.getElementById('playlist');
+
+const volume=document.getElementById('volume');
+
+let currentTrack=0;
+
+/* =========================
+LOAD TRACK
+========================= */
+
+function loadTrack(index){
+
+currentTrack=index;
+
+audio.src=tracks[index].src;
+
+trackTitle.textContent=tracks[index].title;
+
+document.querySelectorAll('.song').forEach((s,i)=>{
+
+s.classList.toggle('active',i===index);
+
+});
+
+audio.play();
+
+playBtn.textContent='❚❚';
+
+}
+
+/* =========================
+PLAYLIST
+========================= */
+
+playlist.innerHTML=tracks.map((track,i)=>`
+
+<div class="song ${i===0?'active':''}" onclick="loadTrack(${i})">
+
+<div class="song-left">
+
+<div class="song-num">
+0${i+1}
+</div>
+
+<div class="song-info">
+
+<h3>${track.title}</h3>
+
+<p>Deltarune Piano Collection</p>
+
+</div>
+
+</div>
+
+<div class="song-status">
+READY
+</div>
+
+</div>
+
+`).join('');
+
+/* =========================
+PLAY BUTTON
+========================= */
+
+playBtn.addEventListener('click',()=>{
+
+if(audio.paused){
+
+audio.play();
+
+playBtn.textContent='❚❚';
+
+}else{
+
+audio.pause();
+
+playBtn.textContent='▶';
+
+}
+
+});
+
+/* =========================
+TIME
+========================= */
+
+audio.addEventListener('loadedmetadata',()=>{
+
+duration.textContent=format(audio.duration);
+
+});
+
+audio.addEventListener('timeupdate',()=>{
+
+const percent=(audio.currentTime/audio.duration)*100;
+
+progress.style.width=percent+'%';
+
+currentTime.textContent=format(audio.currentTime);
+
+});
+
+/* =========================
+SEEK
+========================= */
+
+progressBar.addEventListener('click',(e)=>{
+
+const rect=progressBar.getBoundingClientRect();
+
+const percent=(e.clientX-rect.left)/rect.width;
+
+audio.currentTime=percent*audio.duration;
+
+});
+
+/* =========================
+VOLUME
+========================= */
+
+volume.addEventListener('input',()=>{
+
+audio.volume=volume.value;
+
+});
+
+/* =========================
+AUTO NEXT
+========================= */
+
+audio.addEventListener('ended',()=>{
+
+currentTrack++;
+
+if(currentTrack>=tracks.length){
+
+currentTrack=0;
+
+}
+
+loadTrack(currentTrack);
+
+});
+
+/* =========================
+FORMAT
+========================= */
+
+function format(sec){
+
+const mins=Math.floor(sec/60);
+
+const secs=Math.floor(sec%60)
+.toString()
+.padStart(2,'0');
+
+return `${mins}:${secs}`;
+
+}
+
+/* =========================
+START
+========================= */
+
+loadTrack(0);
+
+audio.pause();
+
+playBtn.textContent='▶';
+
+</script>
+
+</body>
+</html>
